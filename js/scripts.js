@@ -73,7 +73,7 @@ function computerRoll(game, die) {
       //   $("#hold").show();
       alert("computer rolled a 1! computer has to pass.")
       $("#roll").show();
-      $("#game #rolled-1").show();
+      // $("#game #rolled-1").show();
       $(".player-name").text(game.currentPlayer().name)
       setTimeout(function(){
         $("#game #rolled-1").hide();
@@ -163,7 +163,7 @@ $(function() {
                 alert("computer play");
                 $("#hold").hide();
                 computerRoll(newGame, newDie);
-                $("#hold").show();
+                // $("#hold").show();
             }
           });
         }
@@ -187,7 +187,7 @@ $(function() {
           alert("computer play");
           $("#hold").hide();
           computerRoll(newGame, newDie);
-          $("#hold").show();
+          // $("#hold").show();
         }
       }
     })
