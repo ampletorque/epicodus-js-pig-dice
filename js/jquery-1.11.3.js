@@ -6907,12 +6907,12 @@ jQuery.fn.extend({
 		}, name, value, arguments.length > 1 );
 	},
 	show: function() {
-		if (this.attr("class") === "turn-status") {
-			var insults = ["YOU CALL THAT A ROLL!?!?", "MY GRAMMA COULD ROLL BETTER'N THAT!", "Bet this taunting is getting annoying, huh?", "I could stop, but..", "It's kinda fun!", "Besides, YOU SUCK AT THIS GAME!!"];
-			// var insultNumber = Math.floor(Math.random()*insults.length);
-			if (insultNumber < insults.length-1) {insultNumber++;} else {insultNumber = 0;}
-			alert(insults[insultNumber]);
-			}
+		// if (this.attr("class") === "turn-status") {
+		// 	var insults = ["YOU CALL THAT A ROLL!?!?", "MY GRAMMA COULD ROLL BETTER'N THAT!", "Bet this taunting is getting annoying, huh?", "I could stop, but..", "It's kinda fun!", "Besides, YOU SUCK AT THIS GAME!!"];
+		// 	// var insultNumber = Math.floor(Math.random()*insults.length);
+		// 	if (insultNumber < insults.length-1) {insultNumber++;} else {insultNumber = 0;}
+		// 	alert(insults[insultNumber]);
+		// 	}
 		return showHide( this, true );
 	},
 	hide: function() {

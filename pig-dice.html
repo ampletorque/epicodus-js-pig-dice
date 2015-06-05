@@ -26,7 +26,10 @@
               <label for="player2">Player 2</label>
               <input type="text" class="form-control" id="player2">
             </div>
-
+            <div class="form-group text-center">
+              <label for="computer-opponent">Player 2 is the Computer?</label>
+              <input type="checkbox" class="form-control" id="computer-opponent" value="true">
+            </div>
             <button type="submit" class="btn">Play game!</button>
           </form>
         </div>
@@ -62,7 +65,7 @@
               <div>Current score for this turn: <span id="score-value"></span></div>
             </div>
               <br>
-              <div id="rolled-1">You rolled a 1. Your turn is over.<div id="change-player" class="btn-success">Change player</div></div>
+              <div id="rolled-1"><span class="player-name"></span> rolled a 1. <span class="player-name"></span>'s turn is over.<div id="change-player" class="btn-success">Change player</div></div>
 
             <div id="game-over"></div>
             <div id="new-game" class="btn btn-success">New game</div>

@@ -1,6 +1,7 @@
 function Player(name) {
   this.name = name;
   this.score = 0;
+  this.computer = false;
 }
 
 Player.prototype.addToScore = function(newRoll) {
@@ -39,6 +40,68 @@ var updateGame = function(game) {
   $(".turn-status").hide();
 }
 
+function computerRoll(game, die) {
+  $("#static-die").hide();
+  $("#rolling-die").show();
+  setTimeout(function(){
+    $("#rolling-die").hide();
+    $("#static-die").show();
+    var newRoll = die.roll();
+    if (newRoll != 1) {
+      game.addToTurnScore(newRoll);
+      $(".turn-status").show();
+      $("#roll-value").text(newRoll);
+      $("#score-value").text(game.turnScore);
+      if (game.turnScore > 10) {
+        alert("computer has more than 10 points this turn! computer holding.");
+        computerHold(game);
+      } else {
+        setTimeout(function(){
+          alert("computer will roll again!")
+          computerRoll(game, die);
+        }, 1000);
+      }
+
+    } else {
+      $("#roll").hide();
+      $("#hold").hide();
+      $("#roll-value").text(newRoll);
+      // $("#game #rolled-1").show();
+      // $("#game #rolled-1").click(function(){
+      //   $("#game #rolled-1").hide();
+      //   $("#roll").show();
+      //   $("#hold").show();
+      alert("computer rolled a 1! computer has to pass.")
+      $("#roll").show();
+      $("#game #rolled-1").show();
+      $(".player-name").text(game.currentPlayer().name)
+      setTimeout(function(){
+        $("#game #rolled-1").hide();
+      }, 1000);
+      updateGame(game);
+
+      // });
+    }
+  }, 2000);
+}
+
+function computerHold(game) {
+  game.currentPlayer().addToScore(game.turnScore);
+  $("#score" + game.currentPlayerIndex).text(game.currentPlayer().score);
+  if (game.currentPlayer().score >= 100) {
+    $("#game-over").text(game.currentPlayer().name + " is the winner.");
+    $("#new-game").show();
+    $("#new-game").click(function(){
+      $("#game").hide();
+      $("#new-game").hide();
+      $("#pregame").show();
+    })
+  } else {
+    updateGame(game);
+  }
+}
+
+
 
 $(function() {
 
@@ -48,8 +111,11 @@ $(function() {
     event.preventDefault();
 
     var inputPlayer1 = $("input#player1").val(),
-        inputPlayer2 = $("input#player2").val();
-    newGame = new Game(inputPlayer1, inputPlayer2);
+        inputPlayer2 = $("input#player2").val(),
+        computerOpponent = $("input#computer-opponent").prop('checked');
+        if (computerOpponent) {inputPlayer2 = "The Computer";}
+        newGame = new Game(inputPlayer1, inputPlayer2);
+        if (computerOpponent) {newGame.players[1].computer = true;}
     $("#pregame").hide();
     $("#game #player1-info #player1-name").text(newGame.players[0].name);
     $("#game #player2-info #player2-name").text(newGame.players[1].name);
@@ -65,6 +131,9 @@ $(function() {
     $("#roll").off();
     $("#rolling-die").hide();
     var newDie = new Die();
+
+    if (newGame.currentPlayer().computer) {alert("computer");}
+
     $("#roll").click(function(){
 
       $("#static-die").hide();
@@ -84,11 +153,18 @@ $(function() {
           $("#hold").hide();
           $("#roll-value").text(newRoll);
           $("#game #rolled-1").show();
+          $(".player-name").text(newGame.currentPlayer().name);
           $("#game #rolled-1").click(function(){
-            updateGame(newGame);
             $("#game #rolled-1").hide();
             $("#roll").show();
             $("#hold").show();
+            updateGame(newGame);
+            if (newGame.currentPlayer().computer) {
+                alert("computer play");
+                $("#hold").hide();
+                computerRoll(newGame, newDie);
+                $("#hold").show();
+            }
           });
         }
       }, 2000);
@@ -107,6 +183,12 @@ $(function() {
         })
       } else {
         updateGame(newGame);
+        if (newGame.currentPlayer().computer) {
+          alert("computer play");
+          $("#hold").hide();
+          computerRoll(newGame, newDie);
+          $("#hold").show();
+        }
       }
     })
 
